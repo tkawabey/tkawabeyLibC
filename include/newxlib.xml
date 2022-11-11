@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Cコメントコンパイル　プロジェクトファイル -->
+<csrcproject name="xlib">
+ <sorces>
+	  <sorce>xbuff.h</sorce>
+  	  <sorce>xeception.h</sorce>
+	  <sorce>xstrbuff.h</sorce>
+	  <sorce>xstrcordeconv.h</sorce>
+	  <sorce>xcryptbuff.h</sorce>
+	  <sorce>xcompressbuff.h</sorce>
+	  <sorce>xtime.h</sorce>
+	  <sorce>xio.h</sorce>
+	  <sorce>xfile.h</sorce>
+	  <sorce>xlock.h</sorce>
+	  <sorce>xthread.h</sorce>
+ </sorces>
+ <defines>
+      <define name="_WIN32"></define>
+ </defines>
+</csrcproject>

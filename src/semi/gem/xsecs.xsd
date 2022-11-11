@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:documenntation xml:lang="en">
+       SECS Message format scheme for BEE Co.,Ltd.
+       Copyright 2002 BEE Co.,Ltd. All rights reserved.
+    </xs:documenntation>
+  </xs:annotation>
+
+  <xs:simpleType name="ascii">
+    <xs:union memberType="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="intx">
+    <xs:union memberType="xs:byte xs:short xs:int xs:long"/>
+  </xs:simpleType>
+  <xs:simpleType name="int1">
+    <xs:union memberType="xs:byte"/>
+  </xs:simpleType>
+  <xs:simpleType name="int2">
+    <xs:union memberType="xs:short"/>
+  </xs:simpleType>
+  <xs:simpleType name="int4">
+    <xs:union memberType="xs:int"/>
+  </xs:simpleType>
+  <xs:simpleType name="int8">
+    <xs:union memberType="xs:long"/>
+  </xs:simpleType>
+  <xs:simpleType name="uintx">
+    <xs:union memberType="xs:unsignedByte xs:unsignedShort xs:unsignedInt xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:simpleType name="uint1">
+    <xs:union memberType="xs:unsignedByte"/>
+  </xs:simpleType>
+  <xs:simpleType name="uint2">
+    <xs:union memberType="xs:unsignedShort"/>
+  </xs:simpleType>
+  <xs:simpleType name="uint4">
+    <xs:union memberType="xs:unsignedInt"/>
+  </xs:simpleType>
+  <xs:simpleType name="uint8">
+    <xs:union memberType="xs:unsignedLong"/>
+  </xs:simpleType>
+  <xs:simpleType name="floatx">
+    <xs:union memberType="xs:float xs:double"/>
+  </xs:simpleType>
+  <xs:simpleType name="float4">
+    <xs:union memberType="xs:float"/>
+  </xs:simpleType>
+  <xs:simpleType name="float8">
+    <xs:union memberType="xs:double"/>
+  </xs:simpleType>
+  <xs:simpleType name="binary">
+    <xs:list memberType="xs:hexBinary"/>
+  </xs:simpleType>
+  <xs:simpleType name="boolean">
+    <xs:union memberType="xs:boolean"/>
+  </xs:simpleType>
+  <xs:complexType name="list">
+    <xs:union>
+      xs:string
+      xs:hexBinary
+      xs:boolean
+      xs:byte
+      xs:short
+      xs:int
+      xs:long
+      xs:unsignedByte
+      xs:unsignedShort
+      xs:unsignedInt
+      xs:unsignedLong
+      xs:float
+      xs:double
+      list
+    </xs:union>
+  </xs:complexType>
+
+
+  <xs:element name="secs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="itemTypes" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="messages" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="messages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="message" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="message">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="body" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:choice>
+              <xs:element ref="list" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="item" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="sf" type="xs:string" use="required"/>
+      <xs:attribute name="multi" type="xs:string"/>
+      <xs:attribute name="reply" type="xs:boolean"/>
+      <xs:attribute name="dir" default="BOTH">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="BOTH"/>
+            <xs:enumeration value="EtoH"/>
+            <xs:enumeration value="HtoE"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="category" default="UNKNOWN">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="UNKNOWN"/>
+            <xs:enumeration value="EQUIPMENT"/>
+            <xs:enumeration value="COMMUNICATION"/>
+            <xs:enumeration value="CONTROL"/>
+            <xs:enumeration value="EVENT"/>
+            <xs:enumeration value="ALARM"/>
+            <xs:enumeration value="LIMIT"/>
+            <xs:enumeration value="TRACE"/>
+            <xs:enumeration value="MATERIAL"/>
+            <xs:enumeration value="PROCESS"/>
+            <xs:enumeration value="TERMINAL"/>
+            <xs:enumeration value="SPOOL"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="list">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="list"/>
+        <xs:element ref="item"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="item" type="xs:string"/>
+
+  <xs:element name="itemTypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="itemType" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="itemType" type="xs:string">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="format" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string"/>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,120 @@
+
+
+OBJECT = xfunctions.o xbuff.o xstrbuff.o xarray.o xstrcordeconv.o \
+		xcryptbuff.o xcompressbuff.o xtime.o xio.o xfile.o xlock.o \
+		xthread.o xsocket.o xeception.o xprocess.o xmapfile.o xdeamon.o \
+		ximage.o ximagedib.o xdata.o xdata_rich.o xdllorder.o
+
+
+TESTOBJ = test.o test_tcpserver.o test_tcpclient.o \
+		test_tcpclient.o test_process.o test_thread.o test_deamon.o
+
+CC = c++
+INCLUDE = -I../include
+#CFLAGS =  -c -O -D_cygwin -D_DEBUG
+CFLAGS =  -c -O -D_cygwin
+THREAD_FLG = -DPthreadDraftVersion=7 -DPthreadSupportThreadPriority -D_POSIX_TIMERS
+
+
+xlib:	$(OBJECT)
+	ar rus ../lib/xlib.a $(OBJECT)
+
+test:	$(OBJECT) $(TESTOBJ)
+	ar rus ../lib/xlib.a $(OBJECT)
+	g++ -o ../lib/testD.exe  -l pthread -D_POSIX_TIMERS test.o ../lib/xlib.a
+	g++ -o ../lib/test_tcpservercygwin_.exe  -l pthread -D_POSIX_TIMERS test_tcpserver.o ../lib/xlib.a
+	g++ -o ../lib/test_tcpclientcygwin_.exe  -l pthread -D_POSIX_TIMERS test_tcpclient.o ../lib/xlib.a
+	g++ -o ../lib/test_process.exe  -l pthread -D_POSIX_TIMERS test_process.o ../lib/xlib.a
+	g++ -o ../lib/test_thread.exe  -l pthread -D_POSIX_TIMERS test_thread.o ../lib/xlib.a
+	g++ -o ../lib/test_deamon.exe  -l pthread -D_POSIX_TIMERS test_deamon.o ../lib/xlib.a
+
+clean:
+	rm *.o
+	rm ../lib/*.exe
+	rm ../lib/DATA_*
+
+xfunctions.o:	../src/xfunctions.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xfunctions.cpp
+
+xbuff.o:	../src/xbuff.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xbuff.cpp
+
+xeception.o:	../src/xeception.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xeception.cpp
+
+xstrbuff.o:	../src/xstrbuff.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xstrbuff.cpp
+
+xarray.o:	../src/xarray.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xarray.cpp
+
+xstrcordeconv.o:	../src/xstrcordeconv.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xstrcordeconv.cpp
+
+xcryptbuff.o:	../src/xcryptbuff.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xcryptbuff.cpp
+
+xcompressbuff.o:	../src/xcompressbuff.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xcompressbuff.cpp
+
+xtime.o:	../src/xtime.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xtime.cpp
+
+xio.o:	../src/xio.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xio.cpp
+
+xfile.o:	../src/xfile.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xfile.cpp
+
+xlock.o:	../src/xlock.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xlock.cpp
+
+xthread.o:	../src/xthread.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) $(THREAD_FLG) ../src/xthread.cpp
+
+xsocket.o:	../src/xsocket.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xsocket.cpp
+
+xprocess.o:	../src/xprocess.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xprocess.cpp
+
+xmapfile.o:	../src/xmapfile.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xmapfile.cpp
+
+xdeamon.o:	../src/xdeamon.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xdeamon.cpp
+
+ximage.o:	../src/ximage.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/ximage.cpp
+
+ximagedib.o:	../src/ximagedib.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/ximagedib.cpp
+
+xdata.o:	../src/xdata.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xdata.cpp
+
+xdata_rich.o:	../src/xdata_rich.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xdata_rich.cpp
+
+xdllorder.o:	../src/xdllorder.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) ../src/xdllorder.cpp
+
+
+test.o:	../test/test.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) -D_NOMAL ../test/test.cpp
+
+test_tcpserver.o:	../test/test_tcpserver.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) -D_TCP_SERVER ../test/test_tcpserver.cpp
+
+test_tcpclient.o:	../test/test_tcpclient.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) -D_TCP_CLIENT ../test/test_tcpclient.cpp
+
+test_process.o:	../test/test_process.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) -D_TESTPROC ../test/test_process.cpp
+
+test_thread.o:	../test/test_thread.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) -D_THREAD_TEST ../test/test_thread.cpp
+
+test_deamon.o:	../test/test_deamon.cpp
+	$(CC) $(INCLUDE) $(CFLAGS) -D_TEST_DEMON ../test/test_deamon.cpp
+
